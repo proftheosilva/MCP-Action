@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#07162e" />
+    <title>MCP Action — A torre do RAG</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="logo">
+          <strong><span>MCP</span> ACTION</strong
+          ><small>A torre do RAG · Cucando TI</small>
+        </div>
+        <div class="hud" aria-label="Indicadores da partida">
+          <span>JOGADOR <b id="playerName">—</b></span
+          ><span>TEMPO <b id="clock">00:00</b></span
+          ><span>MOEDAS <b id="coins">0</b></span
+          ><span>PONTOS <b id="score">0</b></span>
+        </div>
+        <div class="topactions">
+          <button id="pause" disabled>Pausar</button
+          ><button id="sound" aria-pressed="true">Som: ligado</button
+          ><button id="fullscreen">Tela cheia</button
+          ><button id="help">Como jogar</button>
+        </div>
+      </header>
+      <div class="layout">
+        <main>
+          <div class="phases" id="phases"></div>
+          <div class="arena">
+            <canvas
+              id="game"
+              width="1440"
+              height="810"
+              tabindex="0"
+              aria-label="Jogo MCP Action. Use setas ou WASD para mover, espaço para saltar e E para escolher uma porta."
+            ></canvas>
+            <div class="scanlines" aria-hidden="true"></div>
+            <div class="start-overlay" id="overlay">
+              <div class="modal" id="modalContent"></div>
+            </div>
+            <div
+              class="toast"
+              id="toast"
+              role="status"
+              aria-live="polite"
+            ></div>
+          </div>
+          <div class="mission">
+            <span class="mission-icon">◈</span>
+            <div>
+              <strong id="missionTitle"
+                >Leve a pergunta pelo caminho certo</strong
+              >
+              <p id="missionText">
+                Portas embaralhadas. Conceitos na ordem. Conclua a torre para
+                entrar no ranking.
+              </p>
+            </div>
+            <span class="step-count" id="stepCount">0 / 12 etapas</span>
+          </div>
+          <div class="controls">
+            <span>← → / A D: andar</span
+            ><span>↑ ↓ / W S: escada e elevador</span><span>ESPAÇO: saltar</span
+            ><span>E: confirmar porta / portal</span><span>P: pausar</span>
+          </div>
+          <div class="touch-controls" aria-label="Controles para toque">
+            <button data-key="ArrowLeft" aria-label="Esquerda">←</button
+            ><button data-key="ArrowRight" aria-label="Direita">→</button
+            ><button data-key="ArrowUp" aria-label="Subir">↑</button
+            ><button data-key="ArrowDown" aria-label="Descer">↓</button
+            ><button data-key="Space" aria-label="Saltar">Saltar</button
+            ><button data-key="KeyE" aria-label="Entrar na porta">
+              Entrar
+            </button>
+          </div>
+        </main>
+        <aside>
+          <div class="rank-header">
+            <h2>🏆 RANKING</h2>
+            <select id="rankLimit" aria-label="Quantidade no ranking">
+              <option value="10">Top 10</option>
+              <option value="15">Top 15</option>
+              <option value="20">Top 20</option>
+              <option value="30">Top 30</option>
+              <option value="1000">Todos</option>
+            </select>
+          </div>
+          <p class="rank-sub">
+            Melhor partida de cada jogador<br />Pontos ↓ · tempo ↑
+          </p>
+          <div id="ranking" aria-live="polite">
+            <p class="muted">Conectando ao Supabase…</p>
+          </div>
+          <small id="rankStatus" class="muted"></small>
+          <div class="contract">
+            <h3>FERRAMENTA DA MISSÃO</h3>
+            <dl>
+              <dt>Nome</dt>
+              <dd>consultar_notas_fiscais</dd>
+              <dt>Entrada</dt>
+              <dd>pergunta · top_k ≤ 5</dd>
+              <dt>Fonte</dt>
+              <dd>API do backend RAG</dd>
+              <dt>Saída</dt>
+              <dd>Resposta + trechos + IDs + scores</dd>
+              <dt>Limite</dt>
+              <dd>Somente consulta. Sem apagar ou editar.</dd>
+            </dl>
+          </div>
+          <p class="notice">
+            Simulação educativa: o jogo não envia perguntas reais à LLM. O
+            Supabase armazena as partidas e o ranking.
+          </p>
+          <p class="author">Professor Teophilo Silva</p>
+        </aside>
+      </div>
+      <footer>
+        Fluxo errado: volta ao início e zera toda a rodada.
+        <span>Ordem correta + moedas + rapidez = pontuação.</span>
+      </footer>
+    </div>
+    <script src="config.js"></script>
+    <script type="module" src="game.js"></script>
+  </body>
+</html>
+
